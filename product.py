@@ -1,4 +1,14 @@
 from abc import ABC, abstractmethod
+import uuid
+
+# Simulates database 
+database = []
+
+def findItem(id):
+  for item in database:
+    if (item.id == id):
+      return item
+      
 
 
 class Product:
@@ -105,4 +115,44 @@ class ProductAbstract(ABC):
       The id of the product being deleted
     """
     pass
+
+
+class ProductManager(ProductAbstract):
+  """
+  A class that implements ProductAbstract
+  """
+
+  def create_product(self, product: Product):
+    id = uuid.uuid5(uuid.NAMESPACE_DNS, 'python.org')
+    product.id = id
+
+    if (product.quantity > 0):
+      product.is_stocked = True
+
+    database.append(product)
+
+  def edit_product(self, product_id: str, data: dict):
+    product = findItem(product_id)
+
+    if (product):
+      for key, value in data.items():
+        setattr(product, key, value)
+
+  def get_product_by_id(self, product_id: str):
+    return findItem(product_id)
+
+  def get_all_products(self):
+    return database
+
+  def upload_product_image(self, product_id: str, product_image_url: str):
+    product = findItem(product_id)
+    
+    if (product):
+      product.image_url = product_image_url
+
+  def delete_product(self, product_id: str):
+    product = findItem(product_id)
+
+    if (product):
+      database.remove(product)
 
