@@ -8,10 +8,13 @@ def findItem(id):
   for item in database:
     if (item.id == id):
       return item
-      
+
 
 
 class Product:
+  """
+  Class For Instantiating a New Product Object
+  """
   id = ''
   name =''
   price = ''
